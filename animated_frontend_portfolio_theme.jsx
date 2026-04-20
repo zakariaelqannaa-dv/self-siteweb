@@ -60,14 +60,12 @@ function useMousePosition(){
 
 const cursor={x:0,y:0,visible:false};
 const cursorDot={x:0,y:0};
-const ring={x:0,y:0,hover:false};
+const hoverState={hover:false};
+const clickState={active:false};
 
 function CustomCursor(){
 	const isTouch=useRef(false);
 	const dotRef=useRef(null);
-	const ringRef=useRef(null);
-	const trailRefs=useRef([]);
-	const glowRef=useRef(null);
 	
 	useEffect(()=>{
 		if("ontouchstart" in window || navigator.maxTouchPoints > 0){
@@ -75,17 +73,13 @@ function CustomCursor(){
 			return;
 		}
 		
-		const cursorState={x:0,y:0,vx:0,vy:0};
-		const trail=Array.from({length:8},()=>({x:0,y:0}));
+		const dpiScale=window.devicePixelRatio||1;
+		const baseEase=0.55*Math.min(dpiScale,1.2);
 		
 		const move=(e)=>{
 			cursor.x=e.clientX;
 			cursor.y=e.clientY;
 			cursor.visible=true;
-			cursorState.vx=(e.clientX-cursorState.x)*0.5;
-			cursorState.vy=(e.clientY-cursorState.y)*0.5;
-			cursorState.x=e.clientX;
-			cursorState.y=e.clientY;
 		};
 		
 		const leave=()=>{cursor.visible=false;};
@@ -93,54 +87,32 @@ function CustomCursor(){
 		const over=(e)=>{
 			const t=e.target;
 			const link=t.tagName==="A"||t.tagName==="BUTTON"||t.tagName==="INPUT"||t.tagName==="TEXTAREA"||t.closest("a")||t.closest("button")||t.closest("[role='button']")||t.getAttribute("href")||t.closest("[tabindex]")||t.getAttribute("contenteditable");
-			ring.hover=!!link;
-			document.body.classList.toggle("cursor-hover",ring.hover);
+			hoverState.hover=!!link;
+		};
+		
+		const mouseDown=()=>{
+			clickState.active=true;
+		};
+		
+		const mouseUp=()=>{
+			clickState.active=false;
 		};
 		
 		let frame;
 		const loop=()=>{
-			const ease=ring.hover?0.65:0.42;
-			const trailEase=ring.hover?0.85:0.6;
+			const ease=hoverState.hover?0.80:baseEase;
+			const clickScale=clickState.active?1.5:1;
+			const hoverScale=hoverState.hover?1.8:1;
+			const scale=hoverScale*clickScale;
 			
 			cursorDot.x+=(cursor.x-cursorDot.x)*ease;
 			cursorDot.y+=(cursor.y-cursorDot.y)*ease;
-			ring.x+=(cursor.x-ring.x)*(ease*0.6);
-			ring.y+=(cursor.y-ring.y)*(ease*0.6);
-			
-			for(let i=0;i<trail.length;i++){
-				const t=trail[i];
-				const target=i===0?cursor:{x:trail[i-1].x,y:trail[i-1].y};
-				t.x+=(target.x-t.x)*trailEase;
-				t.y+=(target.y-t.y)*trailEase;
-			}
 			
 			if(dotRef.current){
-				dotRef.current.style.transform=`translate(${cursorDot.x}px,${cursorDot.y}px)`;
-				dotRef.current.style.opacity=cursor.visible?"1":"0";
+				const opacity=clickState.active?0.6:(hoverState.hover?0.7:1);
+				dotRef.current.style.transform=`translate(${cursorDot.x}px,${cursorDot.y}px) scale(${scale}) translate(-50%,-50%)`;
+				dotRef.current.style.opacity=cursor.visible?String(opacity):"0";
 			}
-			if(ringRef.current){
-				const scale=ring.hover?1.8:1;
-				const borderWidth=ring.hover?"2px":"1px";
-				ringRef.current.style.transform=`translate(${ring.x}px,${ring.y}px) scale(${scale}) translate(-50%,-50%)`;
-				ringRef.current.style.opacity=cursor.visible?"1":"0";
-				ringRef.current.style.borderWidth=borderWidth;
-			}
-			if(glowRef.current){
-				const glowScale=ring.hover?2.5:1.2;
-				glowRef.current.style.transform=`translate(${ring.x}px,${ring.y}px) scale(${glowScale}) translate(-50%,-50%)`;
-				glowRef.current.style.opacity=ring.hover?"0.4":"0.15";
-			}
-			trailRefs.current.forEach((ref,i)=>{
-				if(ref){
-					const t=trail[i];
-					const size=6-(i*0.6);
-					const alpha=cursor.visible?(0.5-i*0.06):0;
-					ref.style.transform=`translate(${t.x}px,${t.y}px) translate(-50%,-50%)`;
-					ref.style.width=`${size}px`;
-					ref.style.height=`${size}px`;
-					ref.style.opacity=alpha;
-				}
-			});
 			
 			frame=requestAnimationFrame(loop);
 		};
@@ -148,12 +120,16 @@ function CustomCursor(){
 		window.addEventListener("mousemove",move);
 		document.addEventListener("mouseleave",leave);
 		document.addEventListener("mouseover",over);
+		document.addEventListener("mousedown",mouseDown);
+		document.addEventListener("mouseup",mouseUp);
 		loop();
 		
 		return()=>{
 			window.removeEventListener("mousemove",move);
 			document.removeEventListener("mouseleave",leave);
 			document.removeEventListener("mouseover",over);
+			document.removeEventListener("mousedown",mouseDown);
+			document.removeEventListener("mouseup",mouseUp);
 			cancelAnimationFrame(frame);
 		};
 	},[]);
@@ -161,14 +137,7 @@ function CustomCursor(){
 	if(isTouch.current)return null;
 	
 	return(
-		<>
-			{Array.from({length:8}).map((_,i)=>(
-				<div key={i} ref={el=>trailRefs.current[i]=el} className="fixed top-0 left-0 rounded-full bg-cyan-400/50 z-[9997] pointer-events-none opacity-0 transition-all" style={{width:"6px",height:"6px",boxShadow:`0 0 ${6+i*2}px rgba(34,211,238,${0.3-i*0.03})`}} />
-			))}
-			<div ref={glowRef} className="fixed top-0 left-0 w-20 h-20 rounded-full bg-cyan-400/20 z-[9996] pointer-events-none opacity-0 transition-all duration-300 blur-xl" style={{boxShadow:"0 0 40px rgba(34,211,238,0.5)"}} />
-			<div ref={dotRef} className="fixed top-0 left-0 w-3 h-3 rounded-full bg-white z-[9998] pointer-events-none opacity-0 transition-opacity" style={{boxShadow:"0 0 12px rgba(255,255,255,0.8),0 0 24px rgba(34,211,238,0.6)"}} />
-			<div ref={ringRef} className="fixed top-0 left-0 w-10 h-10 rounded-full border-2 border-cyan-400/80 z-[9999] pointer-events-none opacity-0 transition-all duration-150" style={{boxShadow:"0 0 15px rgba(34,211,238,0.3),inset 0 0 10px rgba(34,211,238,0.1)"}} />
-		</>
+		<div ref={dotRef} className="fixed top-0 left-0 rounded-full bg-white z-[9999] pointer-events-none opacity-0" style={{width:10,height:10,boxShadow:"0 0 20px rgba(255,255,255,0.9),0 0 40px rgba(255,255,255,0.5)"}} />
 	);
 }
 
@@ -766,14 +735,13 @@ export default function AnimatedFrontendPortfolio(){
 		</AnimatePresence>
 		<div className={`min-h-screen overflow-x-hidden bg-[#050816] text-white selection:bg-cyan-500/30 ${showSplash?"hidden":"block"}`}>
 			<CustomCursor />
-			<FloatingIcons />
 			<AnimatedBackground />
 			<div className="fixed inset-0 pointer-events-none -z-10">
 				<div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.04)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(circle_at_center,black,transparent_80%)]" />
 			</div>
 			<div className="grain-overlay" />
 
-<header className="sticky top-0 z-50 border-b border-white/[0.06] glass bg-[#050816]/80 backdrop-blur-xl">
+<header className="sticky top-0 z-50 border-b border-white/[0.02] glass bg-[#050816]/40 backdrop-blur-sm">
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
 					<motion.a initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}} className="text-lg font-bold tracking-[0.12em] text-white hover:text-cyan-200 transition-colors" href="#home">
 						<span className="text-gradient">{profile.name}</span>
