@@ -855,7 +855,7 @@ export default function AnimatedFrontendPortfolio(){
 										<span className="text-white">App</span>
 										<span className="text-white/50">=</span>
 										<span className="text-purple-400">()</span>
-										<span className="text-white">=></span>
+										<span className="text-white">=&gt;</span>
 										<span className="text-purple-400">{'{'}</span>
 									</div>
 									<div className="pl-4 border-l-2 border-cyan-500/30 space-y-2">
@@ -880,7 +880,7 @@ export default function AnimatedFrontendPortfolio(){
 											<span className="text-purple-400">)</span>;
 										</div>
 									</div>
-									<div className="text-purple-400">};</div>
+									<div className="text-purple-400">{'}'}</div>
 								</div>
 							</div>
 							<div className="absolute -bottom-3 -right-3 px-3 py-1 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-xs font-medium text-white shadow-lg">
