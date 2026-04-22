@@ -27,7 +27,7 @@ function SplashScreen({onComplete}){
 					transition={{delay:.3,duration:.5}}
 					className="text-6xl font-bold tracking-[0.15em] text-white mb-4"
 				>
-					ZAKARIA DEV
+					ZENITH DEV
 				</motion.h1>
 				<motion.div 
 					initial={{scaleX:0}}
@@ -41,7 +41,7 @@ function SplashScreen({onComplete}){
 					transition={{delay:.8}}
 					className="text-sm text-white/50 mt-4 tracking-widest"
 				>
-					JUNIOR DEVELOPER
+					SOFTWARE DEVELOPMENT TEAM
 				</motion.p>
 			</motion.div>
 		</motion.div>
@@ -573,10 +573,10 @@ function ParallaxSection({children,offset=20}){
 }
 
 const profile = {
-	name:"Zakaria Dev",
-	title:"Software Developer",
-	location:"Rome, Italy",
-	availability:"Available immediately",
+	name:"Zenith Dev",
+	title:"Software Development Team",
+	location:"",
+	availability:"Accepting New Projects",
 	linkedin:"https://www.linkedin.com/in/zakaria-elqannaa-33293b327/",
 	github:"https://github.com/zakariaelqannaa-dv",
 	email:"zakariaelqannaadv@gmail.com"
@@ -785,16 +785,12 @@ export default function AnimatedFrontendPortfolio(){
 							{profile.title}
 						</motion.div>
 						<motion.h1 initial="hidden" animate="show" variants={fadeUp} custom={1} className="max-w-4xl text-5xl font-bold leading-[.88] tracking-[-0.03em] text-white md:text-7xl lg:text-6.5xl text-gradient text-glow">
-							Building polished software, backend systems & modern web experiences.
+							Engineering High-Performance Systems & Modern Digital Experiences
 						</motion.h1>
 						<motion.p initial="hidden" animate="show" variants={fadeUp} custom={2} className="mt-7 max-w-2xl text-lg leading-8 text-white/60">
-							I am Zakaria, a Software Developer based in Rome, Italy, focused on Java, C#, MySQL, Spring Boot, Django, and TypeScript. I build systems that combine strong backend structure with modern interfaces.
+							We specialize in building robust backend architectures paired with seamless, modern interfaces. Our focus is on delivering scalable software that solves complex business challenges.
 						</motion.p>
 						<div className="mt-6 flex flex-wrap gap-3">
-							<span className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm text-white/60">
-								<svg className="h-4 w-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-								{profile.location}
-							</span>
 							<span className="flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300 pulse-glow">
 								<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
 								{profile.availability}
@@ -803,13 +799,13 @@ export default function AnimatedFrontendPortfolio(){
 						<motion.div initial="hidden" animate="show" variants={fadeUp} custom={3} className="mt-10 flex flex-wrap gap-4">
 							<a href="#work" className="group relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 px-8 py-3.5 text-sm font-semibold text-white transition-all hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(6,182,212,0.4)] btn-glow overflow-hidden">
 								<span className="relative z-10 flex items-center gap-2">
-									View Projects
+									Explore Our Solutions
 									<ArrowRightIcon className="h-4 w-4 transition group-hover:translate-x-1" />
 								</span>
 								<div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-violet-500 via-cyan-500 to-blue-500 transition-transform duration-300 group-hover:translate-x-0 opacity-0 group-hover:opacity-20"/>
 							</a>
 							<a href="#contact" className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-medium text-white backdrop-blur-sm transition-all hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-200 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)]">
-								Contact Me
+								Work With Us
 							</a>
 						</motion.div>
 					</div>
@@ -895,11 +891,14 @@ export default function AnimatedFrontendPortfolio(){
 				<div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr]">
 					<motion.div initial="hidden" whileInView="show" viewport={{once:true,amount:.25}} variants={fadeUp} className="rounded-[2rem] border border-white/[0.08] bg-white/[0.03] p-8 backdrop-blur-xl">
 						<div className="text-sm uppercase tracking-[0.25em] text-cyan-200/80">About</div>
-						<h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] md:text-5xl">Student developer with a backend-first mindset.</h2>
+						<h2 className="mt-4 text-3xl font-semibold tracking-[-0.04em] md:text-5xl">Technical Excellence. Scalable Solutions.</h2>
 					</motion.div>
 					<motion.div initial="hidden" whileInView="show" viewport={{once:true,amount:.25}} variants={fadeUp} custom={1} className="rounded-[2rem] border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-white/[0.02] p-8 text-white/60 backdrop-blur-xl">
 						<p className="text-base leading-8">
-							I am a passionate and motivated Software Developer based in Rome, Italy, with a strong foundation in Java, C#, and MySQL. I completed certified CEFI training across Programming Techniques, Java, C#, and Database MySQL. I am currently looking for professional opportunities as a Software Developer or stage/tirocinio position in Rome or surrounding areas.
+							We are a software development team dedicated to the intersection of structural integrity and modern design. By combining enterprise-grade backend stability with high-speed frontend frameworks, we build applications that are as powerful as they are intuitive.
+						</p>
+						<p className="text-base leading-8 mt-4">
+							Our approach focuses on clean code, maintainable architecture, and long-term technical growth for our partners.
 						</p>
 						<div className="mt-8 flex flex-wrap gap-2.5">{stack.map(renderStackItem)}</div>
 					</motion.div>
@@ -911,26 +910,32 @@ export default function AnimatedFrontendPortfolio(){
 					<div className="text-sm uppercase tracking-[0.25em] text-cyan-200/80">Skills</div>
 					<h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">Technologies I work with.</h2>
 				</motion.div>
-				<div className="grid gap-14 lg:grid-cols-2">
+				<div className="grid gap-14 lg:grid-cols-3">
 					<div className="space-y-6">
 						<h3 className="text-lg font-medium text-white flex items-center gap-2">
 							<span className="h-2 w-2 rounded-full bg-cyan-400"/>
-							Backend & Languages
+							Enterprise Backend Development
 						</h3>
 						<div className="space-y-5">
-							{skills.filter(s=>s.category==="Backend"||s.category==="Database").map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index}/>)}
+							{skills.filter(s=>["Java","C#","Spring Boot"].includes(s.name)).map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index}/>)}
 						</div>
 					</div>
 					<div className="space-y-6">
 						<h3 className="text-lg font-medium text-white flex items-center gap-2">
 							<span className="h-2 w-2 rounded-full bg-violet-400"/>
-							Frontend & Tools
+							Dynamic Web Frameworks
 						</h3>
-						<div className="space-y-5 mb-8">
-							{skills.filter(s=>s.category==="Frontend").map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index+6}/>)}
+						<div className="space-y-5">
+							{skills.filter(s=>["Django","TypeScript","React","JavaScript"].includes(s.name)).map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index+3}/>)}
 						</div>
-						<div className="flex flex-wrap gap-3">
-							{skills.map((skill,index)=><FloatingSkillPill key={skill.name} skill={skill} index={index}/>)}
+					</div>
+					<div className="space-y-6">
+						<h3 className="text-lg font-medium text-white flex items-center gap-2">
+							<span className="h-2 w-2 rounded-full bg-emerald-400"/>
+							Data Architecture
+						</h3>
+						<div className="space-y-5">
+							{skills.filter(s=>["MySQL","SQL"].includes(s.name)).map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index+6}/>)}
 						</div>
 					</div>
 				</div>
@@ -939,7 +944,7 @@ export default function AnimatedFrontendPortfolio(){
 			<section id="work" className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
 				<motion.div initial="hidden" whileInView="show" viewport={{once:true,amount:.25}} variants={fadeUp} className="mb-12">
 					<div className="text-sm uppercase tracking-[0.25em] text-cyan-200/80">Selected Work</div>
-					<h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] md:text-6xl">Projects from my GitHub.</h2>
+					<h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em] md:text-6xl">Solutions We've Built.</h2>
 				</motion.div>
 				<div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">{projects.map((project,index)=><ProjectCard key={project.title} project={project} index={index} />)}</div>
 				<motion.div initial="hidden" whileInView="show" viewport={{once:true}} variants={fadeUp} custom={4} className="mt-12 text-center">
@@ -966,9 +971,9 @@ export default function AnimatedFrontendPortfolio(){
 					<div className="grid gap-12 lg:grid-cols-2 relative">
 						<div>
 							<div className="text-sm uppercase tracking-[0.25em] text-cyan-200/80">Contact</div>
-							<h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">Let's build something amazing together.</h2>
+							<h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">Ready to Scale Your Project?</h2>
 							<p className="mt-6 max-w-xl text-base leading-7 text-white/55">
-								I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision. Let's create something exceptional.
+								We are currently accepting new partnerships and complex development challenges. Let's discuss how we can bring your vision to life with professional-grade engineering.
 							</p>
 							<div className="mt-8 flex flex-wrap gap-4">
 								<a href={profile.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-white transition-all hover:border-cyan-400/50 hover:bg-cyan-500/15 hover:text-cyan-200 hover:shadow-[0_0_20px_rgba(6,182,212,0.2)]"><GitHubIcon className="h-4 w-4" />GitHub</a>
