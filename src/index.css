@@ -10,11 +10,6 @@
 
 html {
   scroll-behavior: smooth;
-  cursor: none;
-}
-
-html * {
-  cursor: none !important;
 }
 
 body {
@@ -22,7 +17,12 @@ body {
   background: #050816;
   color: white;
   overflow-x: hidden;
-  cursor: none;
+}
+
+@media (pointer: fine) {
+  html, html *, body {
+    cursor: none !important;
+  }
 }
 
 .glass {
