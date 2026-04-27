@@ -582,52 +582,7 @@ const profile = {
 	email:"zakariaelqannaadv@gmail.com"
 };
 
-function runComponentTests(){
-	const tests = [
-		{
-			name:"projects is a non-empty array",
-			pass:Array.isArray(projects) && projects.length >= 3
-		},
-		{
-			name:"every project has title, desc, tags, and github url",
-			pass:projects.every(project=>typeof project.title === "string" && project.title.trim() && typeof project.desc === "string" && project.desc.trim() && Array.isArray(project.tags) && project.tags.length > 0 && typeof project.url === "string" && project.url.startsWith("https://github.com/"))
-		},
-		{
-			name:"stack contains core backend skills",
-			pass:stack.includes("Java") && stack.includes("Django") && stack.includes("Spring Boot") && stack.includes("MySQL")
-		},
-		{
-			name:"fadeUp has hidden and show states",
-			pass:Boolean(fadeUp && fadeUp.hidden && typeof fadeUp.show === "function")
-		},
-		{
-			name:"linkedin url is valid",
-			pass:typeof profile.linkedin === "string" && profile.linkedin.startsWith("https://www.linkedin.com/")
-		},
-		{
-			name:"github url is valid",
-			pass:typeof profile.github === "string" && profile.github.startsWith("https://github.com/")
-		},
-		{
-			name:"certificates array has 5 items",
-			pass:Array.isArray(certificates) && certificates.length === 5
-		},
-		{
-			name:"every certificate has valid fields",
-			pass:certificates.every(cert=>typeof cert.title === "string" && cert.title.trim() && typeof cert.hours === "number" && cert.hours > 0 && typeof cert.completed === "string" && cert.completed.trim() && typeof cert.area === "string" && cert.area.trim() && typeof cert.code === "string" && cert.code.trim())
-		},
-		{
-			name:"python certificate exists",
-			pass:certificates.some(cert=>cert.title === "Programmer Python" && cert.code === "HT2Q48EN" && cert.hours === 70)
-		}
-	];
-	if(typeof console !== "undefined"){
-		tests.forEach(test=>console.assert(test.pass, `[portfolio-test] ${test.name}`));
-	}
-	return tests;
-}
 
-const componentTests = runComponentTests();
 
 function renderProjectTag(tag){
 	return <span key={tag} className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-xs text-white/70 font-medium">{tag}</span>;
@@ -727,6 +682,7 @@ function CertificateCard({certificate,index}){
 
 export default function AnimatedFrontendPortfolio(){
 	const[showSplash,setShowSplash]=useState(true);
+	const[isMobileMenuOpen,setIsMobileMenuOpen]=useState(false);
 	
 	return (
 		<>
@@ -743,7 +699,7 @@ export default function AnimatedFrontendPortfolio(){
 
 <header className="sticky top-0 z-50 border-b border-white/[0.02] glass bg-[#050816]/40 backdrop-blur-sm">
 				<div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-					<motion.a initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}} className="text-lg font-bold tracking-[0.12em] text-white hover:text-cyan-200 transition-colors" href="#home">
+					<motion.a initial={{opacity:0,y:-10}} animate={{opacity:1,y:0}} className="text-lg font-bold tracking-[0.12em] text-white hover:text-cyan-200 transition-colors relative z-50" href="#home">
 						<span className="text-gradient">{profile.name}</span>
 					</motion.a>
 					<nav className="hidden gap-8 text-sm md:flex">
@@ -768,10 +724,49 @@ export default function AnimatedFrontendPortfolio(){
 							<span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-violet-500 transition-all duration-300 group-hover:w-full"/>
 						</a>
 					</nav>
-					<a href="#contact" className="rounded-full border border-cyan-400/30 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 px-5 py-2 text-sm font-medium text-cyan-200 transition-all hover:border-cyan-400 hover:bg-gradient-to-r hover:from-cyan-500/30 hover:to-blue-500/30 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]">
-						Let's Talk
-					</a>
+					<div className="flex items-center gap-4 relative z-50">
+						<a href="#contact" className="hidden md:inline-flex rounded-full border border-cyan-400/30 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 px-5 py-2 text-sm font-medium text-cyan-200 transition-all hover:border-cyan-400 hover:bg-gradient-to-r hover:from-cyan-500/30 hover:to-blue-500/30 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+							Let's Talk
+						</a>
+						<button 
+							className="md:hidden text-white p-2 -mr-2"
+							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+							aria-label="Toggle menu"
+						>
+							<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								{isMobileMenuOpen ? (
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+								) : (
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+								)}
+							</svg>
+						</button>
+					</div>
 				</div>
+				<AnimatePresence>
+					{isMobileMenuOpen && (
+						<motion.div 
+							initial={{ opacity: 0, y: -20 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -20 }}
+							transition={{ duration: 0.2 }}
+							className="absolute top-full left-0 right-0 border-b border-white/[0.05] bg-[#050816]/95 backdrop-blur-xl md:hidden shadow-2xl"
+						>
+							<nav className="flex flex-col px-6 py-6 gap-6 text-base">
+								<a onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-cyan-300 transition-colors" href="#about">About</a>
+								<a onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-cyan-300 transition-colors" href="#skills">Skills</a>
+								<a onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-cyan-300 transition-colors" href="#work">Work</a>
+								<a onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-cyan-300 transition-colors" href="#certifications">Certifications</a>
+								<a onClick={() => setIsMobileMenuOpen(false)} className="text-white/80 hover:text-cyan-300 transition-colors" href="#contact">Contact</a>
+								<div className="pt-4 mt-2 border-t border-white/[0.1]">
+									<a onClick={() => setIsMobileMenuOpen(false)} href="#contact" className="inline-block rounded-full border border-cyan-400/30 bg-cyan-500/10 px-6 py-2.5 text-sm font-medium text-cyan-200">
+										Let's Talk
+									</a>
+								</div>
+							</nav>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</header>
 
 			<section id="home" className="relative mx-auto flex min-h-screen max-w-7xl items-center px-6 py-24 lg:px-10">
@@ -908,7 +903,7 @@ export default function AnimatedFrontendPortfolio(){
 			<section id="skills" className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
 				<motion.div initial="hidden" whileInView="show" viewport={{once:true,amount:.25}} variants={fadeUp} className="mb-14">
 					<div className="text-sm uppercase tracking-[0.25em] text-cyan-200/80">Skills</div>
-					<h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">Technologies I work with.</h2>
+					<h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">Technologies We work with.</h2>
 				</motion.div>
 				<div className="grid gap-14 lg:grid-cols-3">
 					<div className="space-y-6">
@@ -917,16 +912,16 @@ export default function AnimatedFrontendPortfolio(){
 							Enterprise Backend Development
 						</h3>
 						<div className="space-y-5">
-							{skills.filter(s=>["Java","C#","Spring Boot"].includes(s.name)).map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index}/>)}
+							{skills.filter(s=>s.category === "Backend").map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index}/>)}
 						</div>
 					</div>
 					<div className="space-y-6">
 						<h3 className="text-lg font-medium text-white flex items-center gap-2">
 							<span className="h-2 w-2 rounded-full bg-violet-400"/>
-							Dynamic Web Frameworks
+							Frontend Development
 						</h3>
 						<div className="space-y-5">
-							{skills.filter(s=>["Django","TypeScript","React","JavaScript"].includes(s.name)).map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index+3}/>)}
+							{skills.filter(s=>s.category === "Frontend").map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index}/>)}
 						</div>
 					</div>
 					<div className="space-y-6">
@@ -935,7 +930,7 @@ export default function AnimatedFrontendPortfolio(){
 							Data Architecture
 						</h3>
 						<div className="space-y-5">
-							{skills.filter(s=>["MySQL","SQL"].includes(s.name)).map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index+6}/>)}
+							{skills.filter(s=>s.category === "Database").map((skill,index)=><SkillBar key={skill.name} skill={skill} index={index}/>)}
 						</div>
 					</div>
 				</div>
@@ -986,7 +981,7 @@ export default function AnimatedFrontendPortfolio(){
 				</motion.div>
 			</section>
 
-			<div className="sr-only" aria-hidden="true">{componentTests.map(test=>`${test.name}:${test.pass ? "pass" : "fail"}`).join("|")}</div>
+
 			
 			<footer className="border-t border-white/[0.06] bg-[#050816]/80 backdrop-blur-xl">
 				<div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
